@@ -2876,6 +2876,15 @@ public:
 
     return xrt_core::module_int::get_ctrl_scratchpad_bo(m_module);
   }
+
+  xrt::bo
+  get_instr_bo() const
+  {
+    if (!m_module)
+      throw xrt_core::error("No module associated with run object");
+
+    return xrt_core::module_int::get_instr_bo(m_module);
+  }
 };
 
 // class mailbox_impl - Extension of run_impl for mailbox support
@@ -4237,6 +4246,15 @@ get_ctrl_scratchpad_bo() const
 {
   return xdp::native::profiling_wrapper("xrt::run::get_ctrl_scratchpad_bo", [this]{
     return handle->get_ctrl_scratchpad_bo();
+  });
+}
+
+xrt::bo
+run::
+get_instr_bo() const
+{
+  return xdp::native::profiling_wrapper("xrt::run::get_instr_bo", [this]{
+    return handle->get_instr_bo();
   });
 }
 

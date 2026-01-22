@@ -136,6 +136,12 @@ get_ctrlpkt_data(const xrt::module& module, uint32_t ctrl_code_id);
 bool
 is_full_elf_module(const xrt::module& module);
 
+// Get the instruction buffer object from the module
+// This returns the buffer containing the instruction sequence after relocations
+XRT_CORE_COMMON_EXPORT
+xrt::bo
+get_instr_bo(const xrt::module& module);
+
 } // xrt_core::module_int
 
 #endif

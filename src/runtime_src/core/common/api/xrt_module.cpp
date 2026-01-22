@@ -692,6 +692,12 @@ public:
     throw std::runtime_error("Not supported");
   }
 
+  virtual xrt::bo
+  get_instr_bo() const
+  {
+    throw std::runtime_error("Not supported");
+  }
+
   virtual xrt::hw_context
   get_hw_context() const
   {
@@ -2875,6 +2881,16 @@ public:
     m_ctrl_scratch_pad_mem.sync(XCL_BO_SYNC_BO_FROM_DEVICE);
     return m_ctrl_scratch_pad_mem;
   }
+
+  xrt::bo
+  get_instr_bo() const override
+  {
+    if (m_instr_bo)
+      return m_instr_bo;
+    if (m_buffer)
+      return m_buffer;
+    throw std::runtime_error("Instruction buffer not available");
+  }
 };
 
 } // namespace xrt
@@ -3056,6 +3072,16 @@ get_ctrl_scratchpad_bo(const xrt::module& module)
     throw std::runtime_error("Getting module_sram failed, wrong module object passed\n");
 
   return module_sram->get_ctrl_scratchpad_bo();
+}
+
+xrt::bo
+get_instr_bo(const xrt::module& module)
+{
+  auto module_sram = std::dynamic_pointer_cast<xrt::module_sram>(module.get_handle());
+  if (!module_sram)
+    throw std::runtime_error("Getting module_sram failed, wrong module object passed\n");
+
+  return module_sram->get_instr_bo();
 }
 
 std::vector<uint8_t>

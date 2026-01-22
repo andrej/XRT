@@ -659,6 +659,21 @@ public:
   xrt::bo
   get_ctrl_scratchpad_bo() const;
 
+  /**
+   * get_instr_bo() - Get the instruction buffer object
+   * 
+   * Returns the buffer object containing the instruction sequence
+   * for this run. The buffer is mapped to host memory and can be
+   * modified before the run is started.
+   * This API is only valid for run objects associated with an ELF.
+   * 
+   * Throws if the run is not associated with a module or
+   * if any error occurs while retrieving the bo
+   */
+  XRT_API_EXPORT
+  xrt::bo
+  get_instr_bo() const;
+
 public:
   /// @cond
   const std::shared_ptr<run_impl>&
